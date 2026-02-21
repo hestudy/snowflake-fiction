@@ -51,10 +51,40 @@ snowflake-fiction → humanize-text → novel-export
 
 ## 安装
 
-将此目录作为 Claude Code 插件使用：
+### 方式一：从 GitHub 仓库安装（推荐）
 
-1. 复制到 `~/.claude/plugins/` 目录
-2. 或在项目目录中直接使用
+```bash
+# 克隆到 Claude Code 插件目录
+git clone https://github.com/YOUR_USERNAME/snowflake-fiction.git \
+  ~/.claude/plugins/marketplaces/snowflake-fiction
+```
+
+### 方式二：从本地目录安装
+
+```bash
+# 如果你已经克隆了仓库
+cp -r /path/to/snowflake-fiction ~/.claude/plugins/marketplaces/
+```
+
+### 方式三：项目级安装
+
+将此仓库作为子模块添加到你的项目中：
+
+```bash
+git submodule add https://github.com/YOUR_USERNAME/snowflake-fiction.git .claude/plugins/snowflake-fiction
+```
+
+### 启用插件
+
+在 `~/.claude/settings.json` 中添加：
+
+```json
+{
+  "enabledPlugins": {
+    "snowflake-fiction": true
+  }
+}
+```
 
 ## 目录结构
 
