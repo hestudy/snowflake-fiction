@@ -55,7 +55,7 @@ snowflake-fiction → humanize-text → novel-export
 
 ```bash
 # 克隆到 Claude Code 插件目录
-git clone https://github.com/YOUR_USERNAME/snowflake-fiction.git \
+git clone https://github.com/hestudy/snowflake-fiction.git \
   ~/.claude/plugins/marketplaces/snowflake-fiction
 ```
 
@@ -71,7 +71,7 @@ cp -r /path/to/snowflake-fiction ~/.claude/plugins/marketplaces/
 将此仓库作为子模块添加到你的项目中：
 
 ```bash
-git submodule add https://github.com/YOUR_USERNAME/snowflake-fiction.git .claude/plugins/snowflake-fiction
+git submodule add https://github.com/hestudy/snowflake-fiction.git .claude/plugins/snowflake-fiction
 ```
 
 ### 启用插件
