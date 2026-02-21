@@ -1,0 +1,39 @@
+{
+  "name": "snowflake-fiction",
+  "owner": {
+    "name": "hestudy",
+    "email": "hestudy@users.noreply.github.com"
+  },
+  "metadata": {
+    "description": "小说创作工具套件：雪花写作法、人语化处理、平台导出"
+  },
+  "plugins": [
+    {
+      "name": "snowflake-fiction",
+      "source": "./",
+      "description": "完整的小说创作工具链，支持雪花写作法创作、AI文本人语化、多平台格式导出",
+      "author": {
+        "name": "hestudy"
+      },
+      "homepage": "https://github.com/hestudy/snowflake-fiction",
+      "repository": "https://github.com/hestudy/snowflake-fiction",
+      "license": "MIT",
+      "keywords": [
+        "novel",
+        "writing",
+        "snowflake-method",
+        "humanize",
+        "export",
+        "fiction",
+        "chinese"
+      ],
+      "category": "creative",
+      "tags": [
+        "novel-writing",
+        "snowflake-method",
+        "humanize-text",
+        "platform-export"
+      ]
+    }
+  ]
+}

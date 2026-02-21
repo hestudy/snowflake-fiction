@@ -51,7 +51,17 @@ snowflake-fiction → humanize-text → novel-export
 
 ## 安装
 
-### 方式一：从 GitHub 仓库安装（推荐）
+### 方式一：通过 Marketplace 安装（推荐）
+
+```bash
+# 添加 marketplace
+/plugin marketplace add hestudy/snowflake-fiction
+
+# 安装插件
+/plugin install snowflake-fiction@snowflake-fiction
+```
+
+### 方式二：从 GitHub 仓库克隆
 
 ```bash
 # 克隆到 Claude Code 插件目录
@@ -59,14 +69,14 @@ git clone https://github.com/hestudy/snowflake-fiction.git \
   ~/.claude/plugins/marketplaces/snowflake-fiction
 ```
 
-### 方式二：从本地目录安装
+### 方式三：从本地目录安装
 
 ```bash
 # 如果你已经克隆了仓库
 cp -r /path/to/snowflake-fiction ~/.claude/plugins/marketplaces/
 ```
 
-### 方式三：项目级安装
+### 方式四：项目级安装
 
 将此仓库作为子模块添加到你的项目中：
 
