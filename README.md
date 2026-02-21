@@ -14,6 +14,156 @@ Claude Code 插件，提供完整的小说创作工具链。从创意到大纲�
 
 ---
 
+## 指令速查表
+
+### 小说创作指令
+
+```bash
+# 基础创作
+/snowflake-fiction                              # 交互式引导创作
+/snowflake-fiction 短篇 [题材描述]               # 短篇小说（1-3万字）
+/snowflake-fiction 长篇 [题材描述] 目标[X]万字    # 长篇小说（10-50万字）
+/snowflake-fiction 百万级 [题材] [字数]万字       # 百万级网文（100万字+）
+
+# 短篇示例
+/snowflake-fiction 短篇 帮我写一个都市职场故事
+/snowflake-fiction 短篇 悬疑推理小说，主角是侦探
+
+# 长篇示例
+/snowflake-fiction 长篇 玄幻修仙小说，目标20万字
+/snowflake-fiction 长篇 都市重生文，目标30万字
+
+# 百万级示例
+/snowflake-fiction 百万级 玄幻 300万字
+/snowflake-fiction 百万级 都市 200万字 日更
+/snowflake-fiction 百万级 仙侠 500万字 番茄
+
+# 导出指令
+/snowflake-fiction 导出 番茄                    # 导出为番茄格式
+/snowflake-fiction 导出 起点                    # 导出为起点格式
+/snowflake-fiction 导出 晋江                    # 导出为晋江格式
+/snowflake-fiction 导出 纯文本                  # 导出为通用纯文本
+/snowflake-fiction 导出 Word                    # 导出为Word文档
+
+# 输出目录指定
+/snowflake-fiction 输出到 ./my-novel/           # 指定输出目录
+
+# 步骤跳转
+/snowflake-fiction 跳到第6步                    # 直接跳到某一步
+/snowflake-fiction 从第3步开始                  # 从指定步骤继续
+```
+
+### 人语化处理指令
+
+```bash
+# 基础用法
+/humanize-text [文本内容]                       # 全面人语化
+
+# 指定场景
+/humanize-text 场景:小说对话 [文本]              # 对话优化
+/humanize-text 场景:对话 [文本]                  # 对话优化（简写）
+/humanize-text 场景:小红书 [文本]                # 小红书风格
+/humanize-text 场景:邮件 [文本]                  # 商务邮件
+/humanize-text 场景:学术 [文本]                  # 学术降重
+/humanize-text 场景:论文 [文本]                  # 学术降重（简写）
+
+# 指定程度
+/humanize-text 程度:轻度 [文本]                  # 保留原文，微调
+/humanize-text 程度:中度 [文本]                  # 平衡改写（默认）
+/humanize-text 程度:深度 [文本]                  # 大幅重构
+
+# 检测与评估
+/humanize-text 自检 [文本]                      # AI程度检测评分
+/humanize-text 评分 [文本]                       # 人语化程度评估
+
+# 示例
+/humanize-text "综上所述，人工智能技术在当今社会具有重要意义..."
+/humanize-text 场景:对话 "他说：我认为这个方案非常优秀..."
+/humanize-text 程度:深度 [粘贴一段小说正文]
+```
+
+### 导出格式指令
+
+```bash
+# 单文本转换
+/novel-export [平台] [文本内容]
+/novel-export 番茄 [文本内容]
+/novel-export 起点 [文本内容]
+/novel-export 晋江 [文本内容]
+/novel-export 知乎 [文本内容]
+/novel-export 七猫 [文本内容]
+/novel-export 纯文本 [文本内容]
+
+# 文件/目录转换
+/novel-export 番茄 ./正文/第1章.md               # 转换单个文件
+/novel-export 起点 ./正文/                       # 转换整个目录
+/novel-export 起点 ./正文/ --batch               # 批量转换
+
+# 合并导出
+/novel-export 番茄 ./正文/ --merge               # 合并为单文件
+/novel-export 番茄 ./正文/ --merge --output 我的小说.txt
+
+# 快捷指令（等价写法）
+/番茄格式 [文本]    # 同 /novel-export 番茄
+/起点格式 [文本]    # 同 /novel-export 起点
+/晋江格式 [文本]    # 同 /novel-export 晋江
+/知乎格式 [文本]    # 同 /novel-export 知乎
+```
+
+### 自然语言触发（无需指令）
+
+以下表述会自动激活对应技能：
+
+```bash
+# 触发 snowflake-fiction
+"写小说"
+"创作故事"
+"雪花法"
+"帮我构思一个故事"
+"用雪花写作法..."
+
+# 触发 humanize-text
+"人语化"
+"去AI味"
+"润色"
+"让这更像人写的"
+"人性化处理"
+"去除机器味"
+
+# 触发 novel-export
+"导出小说"
+"转换为平台格式"
+"番茄格式"
+"起点格式"
+"投稿格式"
+"导出为番茄"
+```
+
+### 完整工作流指令组合
+
+```bash
+# 场景1：写短篇知乎盐选
+/snowflake-fiction 短篇 都市悬疑，2万字
+# ... 完成创作 ...
+/humanize-text 场景:小说对话 [正文]
+/novel-export 知乎 ./正文/
+
+# 场景2：百万级网文日更
+/snowflake-fiction 百万级 玄幻 300万字
+# ... 规划完成 ...
+# 每天：
+生成今天的2章内容
+/humanize-text 程度:中度 [生成的正文]
+/novel-export 番茄 ./正文/第N章.md
+
+# 场景3：批量处理已有内容
+/humanize-text 程度:深度 [大段文本]
+/humanize-text 自检 [处理后的文本]
+/novel-export 起点 [最终文本]
+```
+
+---
+
 ## 快速开始
 
 ### 安装
