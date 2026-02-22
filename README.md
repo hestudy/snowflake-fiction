@@ -69,7 +69,8 @@ Claude Code 插件，提供完整的小说创作工具链。从创意到大纲�
 /novel-review --设定                        # 只检查设定一致性
 /novel-review --大纲                        # 只检查大纲偏离
 /novel-review --伏笔                        # 只检查伏笔回收
-/novel-review --文风                        # 只检查文风一致性
+/novel-review --文风                        # 只检查文风一致性（含流水账检测）
+/novel-review --开篇                        # 只检查开篇质量（仅前3章）
 /novel-review --全文                        # 全面检查（所有项）
 
 # 输出格式
@@ -691,10 +692,62 @@ snowflake-fiction/
 │           ├── scene-template.md            # 场景规划模板
 │           ├── export-format.md             # 导出格式说明
 │           ├── long-novel-guide.md          # 长篇小说指南
-│           └── million-word-webnovel-guide.md # 百万级网文指南
+│           ├── million-word-webnovel-guide.md # 百万级网文指南
+│           └── writing-pitfalls-guide.md    # 网文写作避雷指南
 ├── LICENSE
 └── README.md
 ```
+
+---
+
+## 参考文档说明
+
+本插件内置丰富的参考文档，帮助创作者提升写作质量：
+
+### 创作指南
+
+| 文档 | 说明 |
+|------|------|
+| **[step-prompts.md](skills/snowflake-fiction/references/step-prompts.md)** | 雪花写作法每步提示词模板，包含人语化处理技巧 |
+| **[character-template.md](skills/snowflake-fiction/references/character-template.md)** | 人物卡片和人物宝典完整模板 |
+| **[scene-template.md](skills/snowflake-fiction/references/scene-template.md)** | 场景规划模板（主动/被动场景） |
+| **[export-format.md](skills/snowflake-fiction/references/export-format.md)** | 各平台导出格式详细说明 |
+| **[long-novel-guide.md](skills/snowflake-fiction/references/long-novel-guide.md)** | 长篇小说（10-50万字）创作指南 |
+| **[million-word-webnovel-guide.md](skills/snowflake-fiction/references/million-word-webnovel-guide.md)** | 百万级网文商业节奏设计，含黄金三章、付费卡点、爽点密度 |
+| **[writing-pitfalls-guide.md](skills/snowflake-fiction/references/writing-pitfalls-guide.md)** | ⭐ 新手写作避雷指南（开篇技巧、人设问题、流水账避免、选题技巧） |
+
+### 复核工具
+
+| 文档 | 说明 |
+|------|------|
+| **[consistency-check-prompt.md](skills/novel-review/references/consistency-check-prompt.md)** | 一致性检查提示词模板 |
+| **[character-state-template.md](skills/novel-review/references/character-state-template.md)** | 角色状态追踪模板 |
+| **[timeline-template.md](skills/novel-review/references/timeline-template.md)** | 时间线追踪模板 |
+| **[foreshadowing-tracker.md](skills/novel-review/references/foreshadowing-tracker.md)** | 伏笔追踪模板 |
+| **[review-report-template.md](skills/novel-review/references/review-report-template.md)** | 复核报告模板 |
+
+### 写作避雷指南速览
+
+`writing-pitfalls-guide.md` 整合了番茄小说网作家专区的写作教程，涵盖：
+
+**开篇问题**
+- 三大开篇雷区：寡淡开场、信息轰炸、拖沓入题
+- 黄金三章法则：第1章抓读者、第2章展设定、第3章爽点
+- 开篇切入点选择：剧情切入 vs 场景切入
+
+**人设问题**
+- 人设扁平化：所有角色说话风格雷同
+- 人设前后不统一：行为与设定矛盾
+- 配角工具人化：配角只为服务主角存在
+
+**流水账问题**
+- 流水账特征：无冲突、无情绪、无期待感
+- 避免方法：增加冲突、加入强情绪、设置悬念
+
+**选题技巧**
+- 题材与内容匹配
+- 建立辨识度
+- 合理跨题材混搭
 
 ---
 
