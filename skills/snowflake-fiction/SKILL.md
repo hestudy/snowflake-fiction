@@ -549,4 +549,5 @@ Claude：[重新生成反派卡片]
 - [场景规划模板](./references/scene-template.md)
 - [导出格式说明](./references/export-format.md)
 - [长篇小说创作指南](./references/long-novel-guide.md)
-- [百万级网文创作指南](./references/million-word-webnovel-guide.md) ⭐新增
+- [百万级网文创作指南](./references/million-word-webnovel-guide.md) ⭐
+- [网文写作避雷指南](./references/writing-pitfalls-guide.md) ⭐新增
