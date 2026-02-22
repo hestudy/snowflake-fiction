@@ -9,6 +9,7 @@ Claude Code 插件，提供完整的小说创作工具链。从创意到大纲�
 | 技能 | 用途 | 触发词 |
 |------|------|--------|
 | **snowflake-fiction** | 雪花写作法创作小说 | 写小说、创作故事、雪花法 |
+| **novel-review** | 小说质量复核检查 | 小说复核、章节检查、一致性检查、质量检查 |
 | **humanize-text** | AI文本人语化处理 | 人语化、去AI味、润色 |
 | **novel-export** | 导出各平台格式 | 导出小说、番茄格式、起点格式 |
 
@@ -51,6 +52,34 @@ Claude Code 插件，提供完整的小说创作工具链。从创意到大纲�
 # 步骤跳转
 /snowflake-fiction 跳到第6步                    # 直接跳到某一步
 /snowflake-fiction 从第3步开始                  # 从指定步骤继续
+```
+
+### 小说复核指令
+
+```bash
+# 基础用法
+/novel-review                              # 交互式引导
+/novel-review ./novel-output/我的小说/      # 指定项目目录
+/novel-review 第10章                        # 只检查指定章节
+/novel-review 第5-10章                      # 检查章节范围
+
+# 指定检查项
+/novel-review --角色                        # 只检查角色一致性
+/novel-review --时间线                      # 只检查时间线
+/novel-review --设定                        # 只检查设定一致性
+/novel-review --大纲                        # 只检查大纲偏离
+/novel-review --伏笔                        # 只检查伏笔回收
+/novel-review --文风                        # 只检查文风一致性
+/novel-review --全文                        # 全面检查（所有项）
+
+# 输出格式
+/novel-review --report                     # 生成完整报告
+/novel-review --quick                      # 快速检查（摘要模式）
+
+# 示例
+/novel-review 第10章 --角色                 # 只检查第10章的角色一致性
+/novel-review 第1-10章 --quick              # 快速检查第1-10章
+/novel-review ./novel-output/重生2010/ --全文  # 全面检查指定项目
 ```
 
 ### 人语化处理指令
@@ -122,6 +151,15 @@ Claude Code 插件，提供完整的小说创作工具链。从创意到大纲�
 "帮我构思一个故事"
 "用雪花写作法..."
 
+# 触发 novel-review
+"小说复核"
+"章节检查"
+"一致性检查"
+"质量检查"
+"小说质检"
+"检查角色一致性"
+"检查时间线"
+
 # 触发 humanize-text
 "人语化"
 "去AI味"
@@ -145,6 +183,7 @@ Claude Code 插件，提供完整的小说创作工具链。从创意到大纲�
 # 场景1：写短篇知乎盐选
 /snowflake-fiction 短篇 都市悬疑，2万字
 # ... 完成创作 ...
+/novel-review 第1-10章 --quick             # 快速检查一致性
 /humanize-text 场景:小说对话 [正文]
 /novel-export 知乎 ./正文/
 
@@ -153,6 +192,7 @@ Claude Code 插件，提供完整的小说创作工具链。从创意到大纲�
 # ... 规划完成 ...
 # 每天：
 生成今天的2章内容
+/novel-review 第N章 --角色 --时间线        # 快速检查新章节
 /humanize-text 程度:中度 [生成的正文]
 /novel-export 番茄 ./正文/第N章.md
 
@@ -160,6 +200,14 @@ Claude Code 插件，提供完整的小说创作工具链。从创意到大纲�
 /humanize-text 程度:深度 [大段文本]
 /humanize-text 自检 [处理后的文本]
 /novel-export 起点 [最终文本]
+
+# 场景4：质量检查流程
+/snowflake-fiction 长篇 玄幻小说 20万字
+# ... 创作一段时间后 ...
+/novel-review 第1-20章 --全文              # 全面检查前20章
+# 根据报告修改问题
+/humanize-text [修改后的正文]
+/novel-review 第1-20章 --quick             # 确认修复
 ```
 
 ---
@@ -601,6 +649,7 @@ Claude：[继续...]
 
 3. 日常生产（循环）
    ├─ 生成初稿（2章/天）
+   ├─ 一致性检查 /novel-review
    ├─ 人语化润色
    ├─ 导出平台格式
    └─ 发布
@@ -608,6 +657,7 @@ Claude：[继续...]
 4. 周期回顾（每周）
    ├─ 数据监控
    ├─ 读者反馈分析
+   ├─ 全面质量检查 /novel-review --全文
    └─ 调整后续大纲
 ```
 
@@ -625,6 +675,14 @@ snowflake-fiction/
 │   │   └── SKILL.md          # 人语化技能
 │   ├── novel-export/
 │   │   └── SKILL.md          # 导出技能
+│   ├── novel-review/
+│   │   ├── SKILL.md          # 复核技能
+│   │   └── references/
+│   │       ├── consistency-check-prompt.md  # 一致性检查提示词
+│   │       ├── character-state-template.md  # 角色状态追踪
+│   │       ├── timeline-template.md         # 时间线追踪
+│   │       ├── foreshadowing-tracker.md     # 伏笔追踪
+│   │       └── review-report-template.md    # 复核报告模板
 │   └── snowflake-fiction/
 │       ├── SKILL.md          # 雪花写作法主技能
 │       └── references/
