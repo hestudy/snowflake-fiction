@@ -1,5 +1,6 @@
 {
   "name": "snowflake-fiction",
+  "version": "1.0.1",
   "owner": {
     "name": "hestudy",
     "email": "hestudy@users.noreply.github.com"
@@ -10,6 +11,7 @@
   "plugins": [
     {
       "name": "snowflake-fiction",
+      "version": "1.0.1",
       "source": "./",
       "description": "完整的小说创作工具链，支持雪花写作法创作、AI文本人语化、多平台格式导出",
       "author": {
