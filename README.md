@@ -51,6 +51,10 @@ Claude Code 插件，提供完整的小说创作工具链。从创意到大纲�
 /snowflake-fiction 导出 纯文本                  # 导出为通用纯文本
 /snowflake-fiction 导出 Word                    # 导出为Word文档
 
+# 批量生成（带并发控制）
+/snowflake-fiction 生成 第5-10章 --batch --concurrency 2
+/snowflake-fiction 导出 番茄 --batch --concurrency 3
+
 # 输出目录指定
 /snowflake-fiction 输出到 ./my-novel/           # 指定输出目录
 
@@ -82,6 +86,11 @@ Claude Code 插件，提供完整的小说创作工具链。从创意到大纲�
 # 输出格式
 /novel-review --report                     # 生成完整报告
 /novel-review --quick                      # 快速检查（摘要模式）
+
+# 并发控制
+/novel-review --parallel 1                 # 串行执行（最稳定）
+/novel-review --parallel 2                 # 每批2个（默认）
+/novel-review --parallel 3                 # 每批3个（可能限流）
 
 # 示例
 /novel-review 第10章 --角色                 # 只检查第10章的角色一致性
@@ -174,6 +183,7 @@ Claude Code 插件，提供完整的小说创作工具链。从创意到大纲�
 /novel-export 番茄 ./正文/第1章.md               # 转换单个文件
 /novel-export 起点 ./正文/                       # 转换整个目录
 /novel-export 起点 ./正文/ --batch               # 批量转换
+/novel-export 起点 ./正文/ --batch --concurrency 3  # 批量转换（自定义并发）
 
 # 合并导出
 /novel-export 番茄 ./正文/ --merge               # 合并为单文件
@@ -290,6 +300,64 @@ Claude Code 插件，提供完整的小说创作工具链。从创意到大纲�
 # 根据报告修改问题
 /humanize-text [修改后的正文]
 /novel-review 第1-20章 --quick             # 确认修复
+```
+
+---
+
+## 并发控制策略
+
+为避免 API 限流，批量操作时请使用并发控制参数：
+
+### 并发参数速查
+
+| 命令 | 参数 | 默认值 | 推荐范围 |
+|------|------|--------|----------|
+| `/snowflake-fiction 生成 --batch` | `--concurrency N` | 2 | 1-3 |
+| `/snowflake-fiction 导出 --batch` | `--concurrency N` | 3 | 2-5 |
+| `/novel-export --batch` | `--concurrency N` | 3 | 2-5 |
+| `/novel-review` | `--parallel N` | 2 | 1-3 |
+
+### 使用示例
+
+```bash
+# 批量生成章节（保守模式）
+/snowflake-fiction 生成 第5-10章 --batch --concurrency 2
+
+# 批量导出（默认并发）
+/novel-export 起点 ./正文/ --batch
+
+# 批量导出（自定义并发）
+/novel-export 番茄 ./正文/ --batch --concurrency 5
+
+# 小说复核（串行模式，最稳定）
+/novel-review --全文 --parallel 1
+
+# 小说复核（默认并发）
+/novel-review --全文 --parallel 2
+```
+
+### 限流应对策略
+
+| 情况 | 解决方案 |
+|------|----------|
+| 遇到 429 错误 | 自动退避，等待 5 秒后重试，最多 3 次 |
+| 频繁限流 | 降低并发数或使用串行模式（`--concurrency 1`） |
+| 首次创作 | 建议逐章生成，不使用批量模式 |
+
+### 最佳实践
+
+```bash
+# ✅ 推荐：保守设置
+/snowflake-fiction 生成 第5-10章 --batch --concurrency 2
+/novel-export 番茄 ./正文/ --batch --concurrency 3
+/novel-review --全文 --parallel 2
+
+# ⚠️ 谨慎：高并发可能触发限流
+/novel-export 起点 ./正文/ --batch --concurrency 5
+
+# ✅ 最稳定：串行模式
+/novel-review --全文 --parallel 1
+/novel-export 番茄 ./正文/ --batch --concurrency 1
 ```
 
 ---
