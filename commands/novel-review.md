@@ -50,6 +50,20 @@ description: 小说质量复核工具，检查角色一致性、时间线、设�
 主代理 → 第1批：角色 + 设定 → 第2批：时间线 + 伏笔 → 第3批：大纲偏离 → 第4批：文风 → 汇总报告
 ```
 
+## 并发控制
+
+```bash
+/novel-review --parallel 1    # 串行执行（最保守）
+/novel-review --parallel 2    # 每批2个（默认）
+/novel-review --parallel 3    # 每批3个（可能限流）
+```
+
+| 参数 | 说明 |
+|------|------|
+| `--parallel N` | 每批并行子代理数，默认 **2** |
+
+**推荐**：日常检查使用单项（如 `--角色`），全面检查使用 `--parallel 1` 串行模式。
+
 ## 相关资源
 
 详细检查清单和报告模板请参考 `skills/novel-review/` 目录下的 SKILL.md 和 references 文件夹。

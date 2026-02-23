@@ -18,7 +18,20 @@ description: 使用雪花写作法(Snowflake Method)创作小说。当用户说"
 /snowflake-fiction 长篇 帮我写一个玄幻修仙小说，目标10万字
 /snowflake-fiction 百万级 玄幻 300万字
 /snowflake-fiction 百万级 番茄 都市 200万字 日更
+
+# 批量操作（带并发控制）
+/snowflake-fiction 生成 第5-10章 --batch --concurrency 2
+/snowflake-fiction 导出 番茄 --batch --concurrency 3
 ```
+
+## 并发控制
+
+| 操作 | 参数 | 默认并发 |
+|------|------|----------|
+| 批量生成章节 | `--batch --concurrency N` | 2 |
+| 批量导出格式 | `--batch --concurrency N` | 3 |
+
+**推荐**：首次创作建议逐章生成，批量操作使用 `--concurrency 2` 保守设置。
 
 ## 工作流程
 

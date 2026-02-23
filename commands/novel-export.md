@@ -28,7 +28,17 @@ description: 将小说文本转换为各平台投稿格式。当用户说"导出
 /novel-export 起点 [文本内容]
 /novel-export 番茄 ./novel-output/我的小说/正文/
 /novel-export 起点 ./正文/ --batch
+/novel-export 起点 ./正文/ --batch --concurrency 3
 ```
+
+## 并发控制
+
+| 参数 | 说明 |
+|------|------|
+| `--batch` | 启用批量转换模式 |
+| `--concurrency N` | 并发数量，默认 **3**，推荐 2-5 |
+
+**限流应对**：遇到 429 错误自动退避，等待 5 秒重试，最多 3 次。
 
 ## 快捷指令
 
