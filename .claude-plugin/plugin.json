@@ -18,5 +18,5 @@
     "fiction",
     "chinese"
   ],
-  "skills": ["./skills/"]
+  "skills": ["./skills/", "./commands/"]
 }
