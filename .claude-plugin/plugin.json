@@ -18,5 +18,6 @@
     "fiction",
     "chinese"
   ],
-  "skills": ["./skills/", "./commands/"]
+  "skills": ["./skills/", "./commands/"],
+  "agents": ["./agents/outline-builder.md"]
 }
