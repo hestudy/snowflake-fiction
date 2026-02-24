@@ -25,7 +25,8 @@ snowflake-fiction/
 │   ├── plugin.json           # 插件元数据
 │   └── marketplace.json      # Marketplace 发布配置
 ├── agents/
-│   └── outline-builder.md    # 大纲构建 agent（步骤4+6）
+│   ├── outline-builder.md    # 大纲构建 agent（步骤4+6）
+│   └── humanize-text.md      # 人语化文件处理器（并行子代理架构）
 ├── skills/
 │   ├── snowflake-fiction/    # 雪花写作法主技能
 │   │   ├── SKILL.md          # 技能定义（12步/15步流程）
@@ -49,7 +50,12 @@ snowflake-fiction/
 │   ├── scene-plan/           # 场景规划技能（步骤8+9）
 │   │   └── SKILL.md
 │   ├── humanize-text/        # 人语化处理技能
-│   │   └── SKILL.md
+│   │   ├── SKILL.md          # 核心知识库（纯文本处理）
+│   │   └── references/
+│   │       ├── ai-patterns.md           # 24种AI写作模式详解
+│   │       ├── soul-injection.md        # 灵魂注入技巧
+│   │       ├── scene-modes.md           # 5种场景化处理模式
+│   │       └── banned-words.md          # 禁止词汇清单
 │   └── novel-export/         # 格式导出技能
 │       └── SKILL.md
 └── README.md                 # 使用文档
@@ -126,11 +132,19 @@ snowflake-fiction/
 
 ### humanize-text（人语化处理）
 
+采用 Command / Skill / Agent 三层架构：
+
+- **Command**（`commands/humanize-text.md`）：用户入口，根据输入类型路由到 Skill 或 Agent
+- **Skill**（`skills/humanize-text/SKILL.md`）：核心知识库，处理纯文本和自检评分
+- **Agent**（`agents/humanize-text.md`）：文件处理器，扫描目录、并行派发子代理逐章处理
+
 基于 Wikipedia "Signs of AI writing" 指南，检测并修复 24 种 AI 写作模式，同时注入灵魂（观点、节奏、复杂情绪、第一人称）。
+
+知识库拆分为4个 references 文件：ai-patterns.md（24种模式）、soul-injection.md（灵魂注入）、scene-modes.md（场景模式）、banned-words.md（禁止词汇）。
 
 支持场景：小说对话、小红书、学术论文、商务邮件
 
-支持文件模式：指定小说目录路径 + 章节范围（第3章 / 第3-5章 / 全部），读取后处理，确认后回写。
+文件模式：指定小说目录路径 + 章节范围，Agent 自动扫描目录、并行派发子代理（最多3个并发）逐章处理并直接回写。
 
 ### quality-check（内容质量评估）
 

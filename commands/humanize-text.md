@@ -6,6 +6,27 @@ description: 将AI生成的文本进行人语化处理，去除机器味、注�
 
 将 AI 生成的文本转化为更自然、更像人类写作风格的内容。
 
+## 路由规则
+
+根据用户输入类型，路由到不同处理器：
+
+| 输入类型 | 示例 | 路由目标 |
+|---------|------|----------|
+| 纯文本 | `/humanize-text [文本内容]` | `skills/humanize-text/SKILL.md`（直接处理） |
+| 自检评分 | `/humanize-text 自检 [文本]` | `skills/humanize-text/SKILL.md`（自检模式） |
+| 文件路径 | `/humanize-text ./我的小说/` | `agents/humanize-text.md`（文件处理器） |
+| 路径+章节 | `/humanize-text ./我的小说/ 第3-5章` | `agents/humanize-text.md`（文件处理器） |
+| 仅章节号 | `/humanize-text 第3章` | `agents/humanize-text.md`（当前目录查找） |
+
+### 判断逻辑
+
+```
+输入包含路径（./、/、相对路径）→ 调用 agent
+输入包含"第X章"、"chapter"等关键词 → 调用 agent
+输入包含"自检"关键词 → 调用 skill（自检模式）
+输入是纯文本 → 调用 skill（直接处理）
+```
+
 ## 为什么需要人语化？
 
 | AI 特征 | 人类特征 |
@@ -33,6 +54,12 @@ description: 将AI生成的文本进行人语化处理，去除机器味、注�
 
 # 自检评分
 /humanize-text 自检 [文本]       # AI程度检测评分
+
+# 文件模式
+/humanize-text ./我的小说/                    # 交互式选择章节
+/humanize-text ./我的小说/ 第3章              # 处理指定章节
+/humanize-text ./我的小说/ 第3-5章            # 处理章节范围
+/humanize-text ./我的小说/ 全部               # 处理所有章节
 ```
 
 ## 核心指标
@@ -67,4 +94,6 @@ description: 将AI生成的文本进行人语化处理，去除机器味、注�
 
 ## 相关资源
 
-详细处理模式和技巧请参考 `skills/humanize-text/SKILL.md`。
+- 纯文本处理知识库：`skills/humanize-text/SKILL.md`
+- 文件处理器（并行子代理）：`agents/humanize-text.md`
+- 24种AI模式详解：`skills/humanize-text/references/ai-patterns.md`

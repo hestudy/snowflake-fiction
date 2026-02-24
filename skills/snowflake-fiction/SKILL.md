@@ -177,11 +177,13 @@ version: 1.2.0
 
 #### 步骤 11：人语化处理
 
-**委托**：调用 `humanize-text` skill 执行此步骤。
+**委托**：
+- 纯文本模式：调用 `humanize-text` skill 执行此步骤
+- 文件模式：调用 `humanize-text` agent 并行处理章节文件
 
 **传入上下文**：`正文/第N章.md`（逐章或批量）
 **输出物**：覆盖原文件或输出到 `正文/第N章-润色.md`
-**参考**：[humanize-text skill](../humanize-text/SKILL.md)
+**参考**：[humanize-text skill](../humanize-text/SKILL.md) | [humanize-text agent](../../agents/humanize-text.md)
 
 ---
 
@@ -274,6 +276,7 @@ version: 1.2.0
 - [outline-builder agent](../../agents/outline-builder.md)
 - [scene-plan skill](../scene-plan/SKILL.md)
 - [humanize-text skill](../humanize-text/SKILL.md)
+- [humanize-text agent](../../agents/humanize-text.md)
 - [novel-export skill](../novel-export/SKILL.md)
 - [每步提示词模板](./references/step-prompts.md)
 - [长篇小说创作指南](./references/long-novel-guide.md)
