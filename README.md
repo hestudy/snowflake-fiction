@@ -68,7 +68,7 @@ Claude Code 插件，提供完整的小说创作工具链。从创意到大纲�
 ```bash
 # 基础用法
 /novel-review                              # 交互式引导
-/novel-review ./novel-output/我的小说/      # 指定项目目录
+/novel-review ./我的小说/                   # 指定项目目录
 /novel-review 第10章                        # 只检查指定章节
 /novel-review 第5-10章                      # 检查章节范围
 
@@ -95,7 +95,7 @@ Claude Code 插件，提供完整的小说创作工具链。从创意到大纲�
 # 示例
 /novel-review 第10章 --角色                 # 只检查第10章的角色一致性
 /novel-review 第1-10章 --quick              # 快速检查第1-10章
-/novel-review ./novel-output/重生2010/ --全文  # 全面检查指定项目
+/novel-review ./重生2010/ --全文            # 全面检查指定项目
 ```
 
 ### 人语化处理指令
@@ -957,7 +957,7 @@ Claude：【人语化处理完成】
 用户：导出番茄格式
 
 Claude：【导出完成】
-        ./导出/番茄小说/重生2010/
+        ./重生2010/导出/番茄小说/
         ├── 第1章.txt
         ├── 第2章.txt
         └── 第3章.txt
