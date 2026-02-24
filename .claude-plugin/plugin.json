@@ -1,6 +1,6 @@
 {
   "name": "snowflake-fiction",
-  "version": "1.3.3",
+  "version": "1.3.4",
   "description": "小说创作工具套件：使用雪花写作法创作小说、人语化处理AI文本（24种检测模式+灵魂注入）、导出各平台投稿格式",
   "author": {
     "name": "hestudy",
