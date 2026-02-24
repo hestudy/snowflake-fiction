@@ -1,5 +1,7 @@
 # Snowflake Fiction - 小说创作工具套件
 
+![version](https://img.shields.io/badge/version-1.1.0-blue)
+
 Claude Code 插件，提供完整的小说创作工具链。从创意到大纲，从正文到导出，一站式搞定。
 
 ---
