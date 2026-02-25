@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## 项目概述
 
-Snowflake Fiction 是一个 Claude Code 插件，提供完整的小说创作工具链。包含六个核心技能：
+Snowflake Fiction 是一个 Claude Code 插件，提供完整的小说创作工具链。包含核心技能：
 
 | 技能 | 用途 | 触发词 |
 |------|------|--------|
@@ -15,6 +15,10 @@ Snowflake Fiction 是一个 Claude Code 插件，提供完整的小说创作工�
 | novel-review | 小说质量复核检查 | 小说复核、章节检查、一致性检查、质量检查 |
 | humanize-text | AI文本人语化处理（24种检测模式+灵魂注入，支持指定路径和章节） | 人语化、去AI味、润色 |
 | quality-check | 内容质量评估（冲突/情绪/期待感/节奏/钩子五维打分） | 质量检查、内容检查、综合评估、检查质量、小说质量 |
+| character-check | 角色质量检查（扁平化/一致性/工具人/视角四维检测） | 角色检查、人设检查、人物检查、检查角色 |
+| boring-detect | 流水账专项检测（无冲突/无情绪/无期待感/信息堆砌四维检测） | 流水账检测、检查流水账、平淡检测、流水账 |
+| concept-check | 创意与选题检查（题材匹配/辨识度/混搭/世界观四维检测） | 选题检查、创意检查、题材检查、检查选题 |
+| opening-check | 开篇质量检查（黄金三章法则，支持文件模式） | 开篇检查、黄金三章、检查开篇、检查前三章 |
 | novel-export | 导出各平台格式 | 导出小说、番茄格式、起点格式 |
 
 ## 目录结构
@@ -26,7 +30,14 @@ snowflake-fiction/
 │   └── marketplace.json      # Marketplace 发布配置
 ├── agents/
 │   ├── outline-builder.md    # 大纲构建 agent（步骤4+6）
-│   └── humanize-text.md      # 人语化文件处理器（并行子代理架构）
+│   ├── humanize-text.md      # 人语化文件处理器（并行子代理架构）
+│   ├── novel-review.md       # 小说复核文件处理器（分批子代理架构）
+│   ├── novel-export.md       # 格式导出文件处理器（并行子代理架构）
+│   ├── quality-check.md      # 内容质量评估文件处理器（并行子代理架构）
+│   ├── character-check.md    # 角色质量检查文件处理器（并行子代理架构）
+│   ├── concept-check.md      # 创意与选题检查文件处理器（并行子代理架构）
+│   ├── opening-check.md      # 开篇质量检查文件处理器（并行子代理架构）
+│   └── boring-detect.md      # 流水账检测文件处理器（并行子代理架构）
 ├── skills/
 │   ├── snowflake-fiction/    # 雪花写作法主技能
 │   │   ├── SKILL.md          # 技能定义（12步/15步流程）
@@ -38,7 +49,7 @@ snowflake-fiction/
 │   │       ├── long-novel-guide.md          # 长篇小说指南
 │   │       └── million-word-webnovel-guide.md # 百万级网文指南
 │   ├── novel-review/         # 小说复核技能
-│   │   ├── SKILL.md          # 技能定义（子代理架构）
+│   │   ├── SKILL.md          # 核心知识库（检查维度+报告格式）
 │   │   └── references/
 │   │       ├── consistency-check-prompt.md  # 一致性检查提示词
 │   │       ├── character-state-template.md  # 角色状态追踪
@@ -47,8 +58,30 @@ snowflake-fiction/
 │   │       └── review-report-template.md    # 复核报告模板
 │   ├── character-design/     # 角色设计技能（步骤3+5+7）
 │   │   └── SKILL.md
+│   ├── character-check/      # 角色质量检查技能
+│   │   ├── SKILL.md          # 核心知识库（检查维度+输出格式）
+│   │   └── references/
+│   │       ├── check-dimensions.md        # 四维度检测标准和修复示例
+│   │       └── report-template.md         # 单章/批量报告模板
 │   ├── scene-plan/           # 场景规划技能（步骤8+9）
 │   │   └── SKILL.md
+│   ├── opening-check/        # 开篇质量检查技能
+│   │   ├── SKILL.md          # 核心知识库（黄金三章法则+输出格式）
+│   │   └── references/
+│   │       ├── golden-three-chapters.md   # 黄金三章法则详解和检查清单
+│   │       ├── common-problems.md         # 常见开篇问题诊断和修复示例
+│   │       └── report-template.md         # 单章/批量报告模板
+│   ├── concept-check/        # 创意与选题检查技能
+│   │   ├── SKILL.md          # 核心知识库（检查维度+输出格式）
+│   │   └── references/
+│   │       ├── check-dimensions.md        # 四维度检测标准和示例
+│   │       ├── optimization-formulas.md   # 辨识度优化公式和改写示范
+│   │       └── report-template.md         # 单章/批量报告模板
+│   ├── quality-check/        # 内容质量评估技能
+│   │   ├── SKILL.md          # 核心知识库（评估维度+输出格式）
+│   │   └── references/
+│   │       ├── evaluation-dimensions.md   # 五维度评分标准和检查清单
+│   │       └── report-template.md         # 单章/批量报告模板
 │   ├── humanize-text/        # 人语化处理技能
 │   │   ├── SKILL.md          # 核心知识库（纯文本处理）
 │   │   └── references/
@@ -56,8 +89,17 @@ snowflake-fiction/
 │   │       ├── soul-injection.md        # 灵魂注入技巧
 │   │       ├── scene-modes.md           # 5种场景化处理模式
 │   │       └── banned-words.md          # 禁止词汇清单
+│   ├── boring-detect/        # 流水账检测技能
+│   │   ├── SKILL.md          # 核心知识库（检测维度+输出格式）
+│   │   └── references/
+│   │       ├── detection-dimensions.md  # 四维度检测标准和示例
+│   │       ├── fix-formulas.md          # 修复公式和改写示范
+│   │       └── report-template.md       # 单章/批量报告模板
 │   └── novel-export/         # 格式导出技能
-│       └── SKILL.md
+│       ├── SKILL.md          # 核心知识库（格式转换规则）
+│       └── references/
+│           ├── platform-rules.md         # 各平台转换规则和示例
+│           └── naming-convention.md      # 输出目录命名规范
 └── README.md                 # 使用文档
 ```
 
@@ -116,9 +158,15 @@ snowflake-fiction/
 
 ### novel-review（小说复核）
 
+采用 Command / Skill / Agent 三层架构：
+
+- **Command**（`commands/novel-review.md`）：用户入口，根据输入类型路由到 Skill 或 Agent
+- **Skill**（`skills/novel-review/SKILL.md`）：核心知识库，定义检查维度、评判标准和报告格式
+- **Agent**（`agents/novel-review.md`）：文件处理器，扫描目录、分批派发子代理执行检查、汇总报告
+
 **核心挑战**：长篇小说可能有数十万字，一次性加载所有内容会导致上下文溢出。
 
-**解决方案**：使用子代理（Sub-agent）架构，将检查任务拆分为独立的小任务。
+**解决方案**：Agent 层使用子代理架构，将检查任务拆分为独立的小任务，分批执行（每批最多2个并行）。
 
 检查项目：
 - 角色一致性：性格、对话、能力、关系
@@ -127,6 +175,8 @@ snowflake-fiction/
 - 大纲偏离：核心事件、支线、节奏
 - 伏笔回收：埋设、回收、超期预警
 - 文风一致性：视角、语言风格、AI痕迹
+
+知识库拆分为5个 references 文件：consistency-check-prompt.md（提示词模板）、character-state-template.md（角色状态）、timeline-template.md（时间线）、foreshadowing-tracker.md（伏笔追踪）、review-report-template.md（报告模板）。
 
 输出目录规则：在小说目录下创建 `review/` 子目录，包含追踪文件和报告
 
@@ -148,6 +198,12 @@ snowflake-fiction/
 
 ### quality-check（内容质量评估）
 
+采用 Command / Skill / Agent 三层架构：
+
+- **Command**（`commands/quality-check.md`）：用户入口，根据输入类型路由到 Skill 或 Agent
+- **Skill**（`skills/quality-check/SKILL.md`）：核心知识库，定义评估维度和输出格式
+- **Agent**（`agents/quality-check.md`）：文件处理器，扫描目录、并行派发子代理逐章评估、汇总报告
+
 从五个维度评估文本内容吸引力，定位问题段落，给出优先修改建议。
 
 - **冲突强度**（25%）：是否有明确冲突，是否足够强烈
@@ -156,17 +212,114 @@ snowflake-fiction/
 - **节奏控制**（15%）：张弛是否得当
 - **钩子设计**（15%）：开头是否抓人，结尾是否有悬念
 
+知识库拆分为2个 references 文件：evaluation-dimensions.md（五维度评分标准和检查清单）、report-template.md（单章/批量报告模板）。
+
 不负责 AI 痕迹检测（→ humanize-text）和流水账检测（→ boring-detect）。
+
+文件模式：指定小说目录路径 + 章节范围，Agent 自动扫描目录、并行派发子代理（最多3个并发）逐章评估，汇总报告写入 `review/quality-report.md`。
 
 触发词：质量检查、内容检查、综合评估、检查质量、小说质量
 
+### character-check（角色质量检查）
+
+采用 Command / Skill / Agent 三层架构：
+
+- **Command**（`commands/character-check.md`）：用户入口，根据输入类型路由到 Skill 或 Agent
+- **Skill**（`skills/character-check/SKILL.md`）：核心知识库，定义检查维度和输出格式
+- **Agent**（`agents/character-check.md`）：文件处理器，扫描目录、并行派发子代理逐章检查、汇总报告
+
+从四个维度检测角色质量问题：
+
+- **人设扁平化**（30%）：所有角色说话风格一样，分不清是谁
+- **人设一致性**（30%）：角色行为与设定矛盾
+- **配角工具人化**（25%）：配角只为主角服务，无独立人格
+- **视角问题**（15%）：频繁切换视角导致混乱
+
+知识库拆分为2个 references 文件：check-dimensions.md（四维度检测标准和修复示例）、report-template.md（单章/批量报告模板）。
+
+文件模式：指定小说目录路径 + 章节范围，Agent 自动扫描目录、并行派发子代理（最多3个并发）逐章检查，汇总报告写入 `review/character-report.md`。
+
+触发词：角色检查、人设检查、人物检查、检查角色
+
+### boring-detect（流水账检测）
+
+采用 Command / Skill / Agent 三层架构：
+
+- **Command**（`commands/boring-detect.md`）：用户入口，根据输入类型路由到 Skill 或 Agent
+- **Skill**（`skills/boring-detect/SKILL.md`）：核心知识库，定义检测维度和输出格式
+- **Agent**（`agents/boring-detect.md`）：文件处理器，扫描目录、并行派发子代理逐章检测、汇总报告
+
+从四个维度检测流水账问题：
+
+- **无冲突**（30%）：只有事件罗列，没有矛盾碰撞
+- **无情绪**（25%）：只有动作描述，缺少角色情感反应
+- **无期待感**（25%）：读者不想知道接下来发生什么
+- **信息堆砌**（20%）：大量灌输设定和背景
+
+知识库拆分为3个 references 文件：detection-dimensions.md（四维度检测标准和示例）、fix-formulas.md（修复公式和改写示范）、report-template.md（单章/批量报告模板）。
+
+文件模式：指定小说目录路径 + 章节范围，Agent 自动扫描目录、并行派发子代理（最多3个并发）逐章检测，汇总报告写入 `review/boring-report.md`。
+
+触发词：流水账检测、检查流水账、平淡检测、流水账
+
+### concept-check（创意与选题检查）
+
+采用 Command / Skill / Agent 三层架构：
+
+- **Command**（`commands/concept-check.md`）：用户入口，根据输入类型路由到 Skill 或 Agent
+- **Skill**（`skills/concept-check/SKILL.md`）：核心知识库，定义检查维度和输出格式
+- **Agent**（`agents/concept-check.md`）：文件处理器，扫描目录、并行派发子代理逐章检测、汇总报告
+
+从四个维度检测选题质量问题：
+
+- **题材匹配**（30%）：标签与实际内容是否匹配
+- **辨识度**（30%）：是否有独特卖点，与同类作品的差异
+- **混搭合理性**（20%）：元素数量、主次分明、逻辑自洽
+- **世界观设定**（20%）：设定数量、呈现方式、渐进展开
+
+知识库拆分为3个 references 文件：check-dimensions.md（四维度检测标准和示例）、optimization-formulas.md（辨识度优化公式和改写示范）、report-template.md（单章/批量报告模板）。
+
+文件模式：指定小说目录路径 + 章节范围，Agent 自动扫描目录、并行派发子代理（最多3个并发）逐章检测，汇总报告写入 `review/concept-report.md`。
+
+触发词：选题检查、创意检查、题材检查、检查选题
+
+### opening-check（开篇质量检查）
+
+采用 Command / Skill / Agent 三层架构：
+
+- **Command**（`commands/opening-check.md`）：用户入口，根据输入类型路由到 Skill 或 Agent
+- **Skill**（`skills/opening-check/SKILL.md`）：核心知识库，定义黄金三章法则和输出格式
+- **Agent**（`agents/opening-check.md`）：文件处理器，扫描目录、定位前三章、并行派发子代理逐章检查
+
+基于"黄金三章"法则检查小说开篇质量：
+
+- **第一章**（40分）：3秒抓眼球，前300字有爆点（危机/金手指/反转）
+- **第二章**（30分）：强化冲突，紧迫目标+具体阻碍
+- **第三章**（30分）：爽点反馈，小胜利+结尾钩子
+
+知识库拆分为3个 references 文件：golden-three-chapters.md（黄金三章法则详解和检查清单）、common-problems.md（常见开篇问题诊断和修复示例）、report-template.md（单章/批量报告模板）。
+
+文件模式：指定小说目录路径，Agent 自动扫描目录、定位前三章、并行派发子代理（最多3个并发）逐章检查，汇总报告写入 `review/opening-report.md`。
+
+触发词：开篇检查、黄金三章、检查开篇、检查前三章
+
 ### novel-export（格式导出）
 
+采用 Command / Skill / Agent 三层架构：
+
+- **Command**（`commands/novel-export.md`）：用户入口，根据输入类型路由到 Skill 或 Agent
+- **Skill**（`skills/novel-export/SKILL.md`）：核心知识库，定义格式转换规则和输出格式
+- **Agent**（`agents/novel-export.md`）：文件处理器，扫描目录、并行派发子代理逐章导出
+
 支持平台：番茄小说、起点中文网、晋江文学城、知乎盐选、七猫小说、通用纯文本、Word
+
+知识库拆分为2个 references 文件：platform-rules.md（各平台转换规则和示例）、naming-convention.md（输出目录命名规范）。
 
 关键格式差异：
 - 番茄：无缩进，回车分段，无空行
 - 起点：首行缩进2字符（全角空格）
+
+文件模式：指定小说目录路径 + 章节范围，Agent 自动扫描目录、并行派发子代理（最多3个并发）逐章导出并写入 `导出/[平台名]/` 目录。
 
 ## 修改技能时的注意事项
 

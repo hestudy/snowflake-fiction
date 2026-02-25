@@ -6,10 +6,23 @@ description: 内容质量评估工具，从冲突强度、情绪密度、期待�
 
 从五个维度评估文本内容吸引力，定位问题段落，给出优先修改建议。
 
-## 使用方式
+## 路由规则
+
+根据用户输入类型，路由到不同处理器：
+
+| 输入类型 | 示例 | 路由目标 |
+|---------|------|----------|
+| 纯文本 | `/quality-check [文本内容]` | `skills/quality-check/SKILL.md`（直接评估） |
+| 文件路径 | `/quality-check ./我的小说/` | `agents/quality-check.md`（文件处理器） |
+| 路径+章节 | `/quality-check ./我的小说/ 第3-5章` | `agents/quality-check.md`（文件处理器） |
+| 仅章节号 | `/quality-check 第3章` | `agents/quality-check.md`（当前目录查找） |
+
+### 判断逻辑
 
 ```
-/quality-check [文本内容]
+输入包含路径（./、/、相对路径）→ 调用 agent
+输入包含"第X章"、"chapter"等关键词 → 调用 agent
+输入是纯文本 → 调用 skill（直接评估）
 ```
 
 ## 评估维度
@@ -31,6 +44,18 @@ description: 内容质量评估工具，从冲突强度、情绪密度、期待�
 | 及格 | 40-59 | 有明显问题需优化 | 重点改写 |
 | 不及格 | 0-39 | 存在严重问题 | 需要重构 |
 
+## 使用方式
+
+```
+/quality-check [待评估的文本]
+
+# 文件模式
+/quality-check ./我的小说/                    # 交互式选择章节
+/quality-check ./我的小说/ 第3章              # 评估指定章节
+/quality-check ./我的小说/ 第3-5章            # 评估章节范围
+/quality-check ./我的小说/ 全部               # 评估所有章节
+```
+
 ## 推荐工作流
 
 ```
@@ -44,6 +69,15 @@ description: 内容质量评估工具，从冲突强度、情绪密度、期待�
 
 ## 相关命令
 
-- `/humanize-text` - AI痕迹检测与人语化处理
-- `/boring-detect` - 流水账专项检测
-- `/opening-check` - 开篇质量检查
+| 需求 | 使用 |
+|------|------|
+| 人语化处理 | `/humanize-text [文本]` |
+| 流水账检测 | `/boring-detect [文本]` |
+| 开篇检查 | `/opening-check [文本]` |
+
+## 相关资源
+
+- 核心知识库：`skills/quality-check/SKILL.md`
+- 文件处理器（并行子代理）：`agents/quality-check.md`
+- 五维度评估详解：`skills/quality-check/references/evaluation-dimensions.md`
+- 报告模板：`skills/quality-check/references/report-template.md`

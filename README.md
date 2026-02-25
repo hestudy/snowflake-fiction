@@ -1,6 +1,6 @@
 # Snowflake Fiction - 小说创作工具套件
 
-![version](https://img.shields.io/badge/version-1.4.0-blue)
+![version](https://img.shields.io/badge/version-1.5.0-blue)
 
 Claude Code 插件，提供完整的小说创作工具链。从创意到大纲，从正文到导出，一站式搞定。
 
@@ -1230,51 +1230,85 @@ snowflake-fiction/
 ├── .claude-plugin/
 │   ├── plugin.json           # 插件元数据
 │   └── marketplace.json      # Marketplace 配置
-├── agents/                   # ⭐新增
-│   └── outline-builder.md    # 大纲构建 agent（步骤4+6，自动读取项目文件）
+├── agents/                   # Agent 文件处理器
+│   ├── outline-builder.md    # 大纲构建 agent（步骤4+6）
+│   ├── humanize-text.md      # 人语化文件处理器
+│   ├── novel-review.md       # 小说复核文件处理器
+│   ├── novel-export.md       # 格式导出文件处理器
+│   ├── quality-check.md      # 内容质量评估文件处理器
+│   ├── character-check.md    # 角色质量检查文件处理器
+│   ├── concept-check.md      # 创意与选题检查文件处理器
+│   ├── boring-detect.md      # 流水账检测文件处理器
+│   └── opening-check.md      # 开篇质量检查文件处理器
 ├── skills/
-│   ├── character-design/     # ⭐新增
-│   │   └── SKILL.md          # 角色设计技能（步骤3+5+7）
-│   ├── scene-plan/           # ⭐新增
-│   │   └── SKILL.md          # 场景规划技能（步骤8+9）
-│   ├── humanize-text/
-│   │   └── SKILL.md          # 人语化技能（v2.0，24种检测模式+灵魂注入）
-│   ├── novel-export/
-│   │   └── SKILL.md          # 导出技能
-│   ├── novel-review/
-│   │   ├── SKILL.md          # 复核技能
+│   ├── snowflake-fiction/     # 雪花写作法主技能（编排器）
+│   │   ├── SKILL.md
+│   │   └── references/
+│   │       ├── step-prompts.md
+│   │       ├── character-template.md
+│   │       ├── scene-template.md
+│   │       ├── export-format.md
+│   │       ├── long-novel-guide.md
+│   │       ├── million-word-webnovel-guide.md
+│   │       ├── fanqie-guide.md
+│   │       └── writing-pitfalls-guide.md
+│   ├── character-design/     # 角色设计技能（步骤3+5+7）
+│   │   └── SKILL.md
+│   ├── scene-plan/           # 场景规划技能（步骤8+9）
+│   │   └── SKILL.md
+│   ├── humanize-text/        # 人语化技能（24种检测模式+灵魂注入）
+│   │   ├── SKILL.md
+│   │   └── references/
+│   │       ├── ai-patterns.md
+│   │       ├── soul-injection.md
+│   │       ├── scene-modes.md
+│   │       └── banned-words.md
+│   ├── novel-review/         # 小说复核技能
+│   │   ├── SKILL.md
 │   │   └── references/
 │   │       ├── consistency-check-prompt.md
 │   │       ├── character-state-template.md
 │   │       ├── timeline-template.md
 │   │       ├── foreshadowing-tracker.md
 │   │       └── review-report-template.md
-│   ├── quality-check/
-│   │   └── SKILL.md
-│   ├── boring-detect/
-│   │   └── SKILL.md
-│   ├── opening-check/
-│   │   └── SKILL.md
-│   ├── character-check/
-│   │   └── SKILL.md
-│   ├── concept-check/
-│   │   └── SKILL.md
-│   └── snowflake-fiction/
-│       ├── SKILL.md          # 雪花写作法主技能（编排器）
+│   ├── novel-export/         # 格式导出技能
+│   │   ├── SKILL.md
+│   │   └── references/
+│   │       ├── platform-rules.md
+│   │       └── naming-convention.md
+│   ├── quality-check/        # 内容质量评估技能
+│   │   ├── SKILL.md
+│   │   └── references/
+│   │       ├── evaluation-dimensions.md
+│   │       └── report-template.md
+│   ├── boring-detect/        # 流水账检测技能
+│   │   ├── SKILL.md
+│   │   └── references/
+│   │       ├── detection-dimensions.md
+│   │       ├── fix-formulas.md
+│   │       └── report-template.md
+│   ├── opening-check/        # 开篇质量检查技能
+│   │   ├── SKILL.md
+│   │   └── references/
+│   │       ├── golden-three-chapters.md
+│   │       ├── common-problems.md
+│   │       └── report-template.md
+│   ├── character-check/      # 角色质量检查技能
+│   │   ├── SKILL.md
+│   │   └── references/
+│   │       ├── check-dimensions.md
+│   │       └── report-template.md
+│   └── concept-check/        # 创意与选题检查技能
+│       ├── SKILL.md
 │       └── references/
-│           ├── step-prompts.md
-│           ├── character-template.md
-│           ├── scene-template.md
-│           ├── export-format.md
-│           ├── long-novel-guide.md
-│           ├── million-word-webnovel-guide.md
-│           ├── fanqie-guide.md
-│           └── writing-pitfalls-guide.md
+│           ├── check-dimensions.md
+│           ├── optimization-formulas.md
+│           └── report-template.md
 ├── commands/                 # 命令入口文件
-│   ├── outline-concept.md    # ⭐新增
-│   ├── character-design.md   # ⭐新增
-│   ├── scene-plan.md         # ⭐新增
 │   ├── snowflake-fiction.md
+│   ├── outline-concept.md
+│   ├── character-design.md
+│   ├── scene-plan.md
 │   ├── novel-review.md
 │   ├── humanize-text.md
 │   ├── novel-export.md
