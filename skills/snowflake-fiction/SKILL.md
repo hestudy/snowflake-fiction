@@ -1,7 +1,7 @@
 ---
 name: snowflake-fiction
 description: 使用雪花写作法(Snowflake Method)创作小说。当用户说"写小说"、"创作故事"、"雪花法"、"帮我构思一个故事"时自动激活。支持短篇小说（1-3万字）、长篇小说（10万字+）和百万级网文（100万字+）的全流程创作。
-version: 1.2.0
+version: 1.3.0
 ---
 
 # 雪花写作法小说创作 Skill（编排器）
@@ -20,29 +20,6 @@ version: 1.2.0
     ↓
 一个创意 ⟶ 一句话概括 ⟶ 逐步深化 ⟶ 完整小说
 ```
-
----
-
-## 选择创作模式
-
-```
-/snowflake-fiction 短篇 帮我写一个都市职场故事
-/snowflake-fiction 长篇 帮我写一个玄幻修仙小说，目标10万字
-/snowflake-fiction 百万级 玄幻 300万字
-/snowflake-fiction 百万级 番茄 都市 200万字 日更
-```
-
-### 番茄小说专项支持
-
-当选择「百万级」模式并指定「番茄」平台时，额外提供：
-
-| 支持项 | 说明 | 输出时机 |
-|--------|------|----------|
-| **推荐评估节点规划** | 8万字、15万字关键节点设计 | 步骤6-9 |
-| **数据指标嵌入** | 追读率/完读率关注点设计 | 步骤10 |
-| **书名简介优化** | 生成5套书名+简介组合（书测备用） | 步骤1-2 |
-| **验证期存稿规划** | 确保验证期不断更 | 步骤10 |
-| **黄金三章增强** | 按3秒法则设计开篇 | 步骤8-9 |
 
 ---
 
@@ -154,22 +131,7 @@ version: 1.2.0
 6. 保存到 正文/第N章.md
 ```
 
-**批量生成模式**（可选）：
-
-```bash
-/snowflake-fiction 生成 第5-10章 --batch
-/snowflake-fiction 生成 第5-10章 --batch --concurrency 2
-```
-
-**并发控制策略**：
-
-| 参数 | 说明 |
-|------|------|
-| `--batch` | 启用批量生成模式 |
-| `--concurrency N` | 并发数量，默认 **2**（避免 API 限流） |
-
-- 默认并发数：**2**，推荐范围：1-3，每章间隔：2 秒
-- 遇到限流时：自动退避，等待 5 秒后重试，最多 3 次
+批量生成和并发控制由 [snowflake-fiction agent](../../agents/snowflake-fiction.md) 负责。
 
 ---
 
@@ -196,14 +158,6 @@ version: 1.2.0
 **传入上下文**：`正文/` 目录下所有章节文件
 **输出物**：`export/[平台名]/` 目录下的格式化文件
 **参考**：[novel-export skill](../novel-export/SKILL.md)
-
-使用方式：
-```
-/snowflake-fiction 导出 番茄
-/snowflake-fiction 导出 起点
-/snowflake-fiction 导出 纯文本
-/snowflake-fiction 导出 Word
-```
 
 ---
 
@@ -257,20 +211,9 @@ version: 1.2.0
 
 ---
 
-## 并发控制策略
-
-| 操作 | 默认并发 | 推荐范围 | 间隔时间 |
-|------|----------|----------|----------|
-| 批量生成章节 | 2 | 1-3 | 2 秒 |
-| 批量导出格式 | 3 | 2-5 | 1 秒 |
-| 人语化处理 | 2 | 1-3 | 1 秒 |
-
-遇到 429 错误时自动退避，等待 5 秒后重试，最多 3 次。
-
----
-
 ## 相关资源
 
+- [snowflake-fiction agent](../../agents/snowflake-fiction.md)（文件处理器：目录扫描、批量生成）
 - [outline-concept skill](../outline-concept/SKILL.md)
 - [character-design skill](../character-design/SKILL.md)
 - [outline-builder agent](../../agents/outline-builder.md)

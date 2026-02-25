@@ -1,6 +1,6 @@
 # Snowflake Fiction - 小说创作工具套件
 
-![version](https://img.shields.io/badge/version-1.5.0-blue)
+![version](https://img.shields.io/badge/version-1.6.0-blue)
 
 Claude Code 插件，提供完整的小说创作工具链。从创意到大纲，从正文到导出，一站式搞定。
 
@@ -1232,6 +1232,7 @@ snowflake-fiction/
 │   └── marketplace.json      # Marketplace 配置
 ├── agents/                   # Agent 文件处理器
 │   ├── outline-builder.md    # 大纲构建 agent（步骤4+6）
+│   ├── snowflake-fiction.md  # 雪花写作法文件处理器（目录扫描+批量生成）
 │   ├── humanize-text.md      # 人语化文件处理器
 │   ├── novel-review.md       # 小说复核文件处理器
 │   ├── novel-export.md       # 格式导出文件处理器
@@ -1241,7 +1242,7 @@ snowflake-fiction/
 │   ├── boring-detect.md      # 流水账检测文件处理器
 │   └── opening-check.md      # 开篇质量检查文件处理器
 ├── skills/
-│   ├── snowflake-fiction/     # 雪花写作法主技能（编排器）
+│   ├── snowflake-fiction/     # 雪花写作法主技能（编排知识库）
 │   │   ├── SKILL.md
 │   │   └── references/
 │   │       ├── step-prompts.md

@@ -30,6 +30,7 @@ snowflake-fiction/
 │   └── marketplace.json      # Marketplace 发布配置
 ├── agents/
 │   ├── outline-builder.md    # 大纲构建 agent（步骤4+6）
+│   ├── snowflake-fiction.md  # 雪花写作法文件处理器（目录扫描+批量生成）
 │   ├── humanize-text.md      # 人语化文件处理器（并行子代理架构）
 │   ├── novel-review.md       # 小说复核文件处理器（分批子代理架构）
 │   ├── novel-export.md       # 格式导出文件处理器（并行子代理架构）
@@ -40,7 +41,7 @@ snowflake-fiction/
 │   └── boring-detect.md      # 流水账检测文件处理器（并行子代理架构）
 ├── skills/
 │   ├── snowflake-fiction/    # 雪花写作法主技能
-│   │   ├── SKILL.md          # 技能定义（12步/15步流程）
+│   │   ├── SKILL.md          # 核心编排知识库（工作流程+委托规则）
 │   │   └── references/       # 参考模板
 │   │       ├── step-prompts.md              # 每步提示词
 │   │       ├── character-template.md        # 人物卡片模板
@@ -107,12 +108,20 @@ snowflake-fiction/
 
 ### snowflake-fiction（雪花写作法）
 
+采用 Command / Skill / Agent 三层架构：
+
+- **Command**（`commands/snowflake-fiction.md`）：用户入口，根据输入类型路由到 Skill 或 Agent
+- **Skill**（`skills/snowflake-fiction/SKILL.md`）：核心编排知识库，定义工作流程和各步骤委托规则
+- **Agent**（`agents/snowflake-fiction.md`）：文件处理器，扫描目录、判断进度、批量生成章节
+
 支持三种模式：
 - **短篇小说**（1-3万字）：12步流程
 - **长篇小说**（10-50万字）：15步流程，多卷结构
 - **百万级网文**（100万字+）：商业节奏设计，黄金三章、付费卡点、爽点密度
 
 流程阶段：构思期 → 设计期 → 构建期 → 规划期 → 创作期 → 润色期 → 导出期
+
+Agent 层负责：目录扫描和进度判断、从任意步骤恢复创作、批量章节生成的并行子代理派发（默认并发2）、进度报告。
 
 输出目录规则：直接在当前工作目录下创建 `[小说名]/`（不再创建 `novel-output/` 中间层）；向后兼容已有的 `novel-output/[小说名]/` 结构
 
