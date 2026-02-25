@@ -1,6 +1,6 @@
 # Snowflake Fiction - 小说创作工具套件
 
-![version](https://img.shields.io/badge/version-1.6.0-blue)
+![version](https://img.shields.io/badge/version-1.7.0-blue)
 
 Claude Code 插件，提供完整的小说创作工具链。从创意到大纲，从正文到导出，一站式搞定。
 
@@ -14,6 +14,7 @@ Claude Code 插件，提供完整的小说创作工具链。从创意到大纲�
 | **outline-concept** | 故事构思（步骤1→2，快速验证创意）⭐新增 | 构思故事、验证创意、故事概念 |
 | **character-design** | 角色设计（步骤3→5→7，人物深化链）⭐新增 | 角色设计、人物设计、新增角色、深化角色 |
 | **scene-plan** | 场景规划（步骤8→9，支持局部重跑）⭐新增 | 场景规划、规划场景、场景设计、场景清单 |
+| **chapter-write** | 创作期续写（步骤10，批量生成+流水账自检）⭐新增 | 续写、写章节、生成章节、写下一章、批量生成 |
 | **novel-review** | 小说质量复核检查 | 小说复核、章节检查、一致性检查 |
 | **humanize-text** | AI文本人语化处理（24种检测模式+灵魂注入，支持指定路径和章节）⭐优化 | 人语化、去AI味、润色 |
 | **quality-check** | 内容质量评估（冲突/情绪/期待感/节奏/钩子） | 质量检查、内容检查、综合评估 |
@@ -54,6 +55,14 @@ Claude Code 插件，提供完整的小说创作工具链。从创意到大纲�
 /scene-plan 第3章                              # 局部规划（修改大纲后重跑）
 /scene-plan 第3章-第5章                        # 指定章节范围
 /scene-plan --list-only                        # 仅生成场景清单
+
+# 创作期续写（步骤10）⭐新增
+/chapter-write                                 # 自动续写下一章
+/chapter-write 第5章                           # 生成指定章节
+/chapter-write 第5-10章                        # 批量生成章节范围
+/chapter-write 今天3章                         # 从最后一章续写3章
+/chapter-write ./我的小说/ 第3-5章             # 指定目录+章节范围
+/chapter-write --concurrency 3                 # 自定义并发数（默认2）
 
 # 大纲构建（步骤4+6，agent 自动触发）
 生成大纲                                        # 自然语言触发 outline-builder agent
@@ -251,6 +260,15 @@ Claude Code 插件，提供完整的小说创作工具链。从创意到大纲�
 "写大纲"
 "重新生成大纲"
 
+# 触发 chapter-write（⭐新增）
+"续写"
+"写章节"
+"生成章节"
+"写下一章"
+"批量生成"
+"继续写"
+"写正文"
+
 # 触发 snowflake-fiction
 "写小说"
 "创作故事"
@@ -364,6 +382,7 @@ Claude Code 插件，提供完整的小说创作工具链。从创意到大纲�
 | 命令 | 参数 | 默认值 | 推荐范围 |
 |------|------|--------|----------|
 | `/snowflake-fiction 生成 --batch` | `--concurrency N` | 2 | 1-3 |
+| `/chapter-write` | `--concurrency N` | 2 | 1-3 |
 | `/snowflake-fiction 导出 --batch` | `--concurrency N` | 3 | 2-5 |
 | `/novel-export --batch` | `--concurrency N` | 3 | 2-5 |
 | `/novel-review` | `--parallel N` | 2 | 1-3 |
@@ -1133,7 +1152,7 @@ Claude：[继续...]
    └─ 黄金三章/付费卡点/升级体系设计
 
 3. 日常生产（循环）
-   ├─ 生成初稿（2章/天）
+   ├─ 生成初稿（2章/天） /chapter-write 今天2章  ⭐独立命令
    ├─ 质量检查 /quality-check          ⭐内容质量评估（五维打分）
    ├─ 流水账检测 /boring-detect        ⭐使用独立命令
    ├─ 人语化润色 /humanize-text
@@ -1188,6 +1207,7 @@ Claude：[继续...]
 | 设计/深化角色 | `/character-design` | 步骤3+5+7，人物卡片→背景→宝典 ⭐新增 |
 | 构建/重建大纲 | 说"生成大纲" | outline-builder agent 自动读取项目文件 ⭐新增 |
 | 规划场景 | `/scene-plan` | 步骤8+9，支持局部重跑 ⭐新增 |
+| 续写章节 | `/chapter-write` | 步骤10，批量生成+流水账自检 ⭐新增 |
 | 每章快速检查 | `/boring-detect` | 5秒发现流水账 |
 | 常规质量检查 | `/quality-check` | 内容质量五维评估 |
 | 开篇精修 | `/opening-check` | 黄金三章标准 |
@@ -1211,6 +1231,7 @@ Claude：[继续...]
 │  └─ 黄金三章、开篇爆点、结尾钩子                              │
 ├─────────────────────────────────────────────────────────────┤
 │                        日常生产                               │
+│  /chapter-write [章节] ─→ 生成正文 ⭐新增                      │
 │  /boring-detect [正文] ─→ 快速检测流水账                     │
 │  /quality-check [正文] ─→ 内容质量评估（五维打分）           │
 │  /character-check [正文] ─→ 角色塑造检查 ⭐新增               │
@@ -1233,6 +1254,7 @@ snowflake-fiction/
 ├── agents/                   # Agent 文件处理器
 │   ├── outline-builder.md    # 大纲构建 agent（步骤4+6）
 │   ├── snowflake-fiction.md  # 雪花写作法文件处理器（目录扫描+批量生成）
+│   ├── chapter-write.md      # 创作期续写文件处理器（并行子代理架构）
 │   ├── humanize-text.md      # 人语化文件处理器
 │   ├── novel-review.md       # 小说复核文件处理器
 │   ├── novel-export.md       # 格式导出文件处理器
@@ -1257,6 +1279,10 @@ snowflake-fiction/
 │   │   └── SKILL.md
 │   ├── scene-plan/           # 场景规划技能（步骤8+9）
 │   │   └── SKILL.md
+│   ├── chapter-write/        # 创作期续写技能（步骤10）
+│   │   ├── SKILL.md
+│   │   └── references/
+│   │       └── writing-guide.md
 │   ├── humanize-text/        # 人语化技能（24种检测模式+灵魂注入）
 │   │   ├── SKILL.md
 │   │   └── references/
@@ -1310,6 +1336,7 @@ snowflake-fiction/
 │   ├── outline-concept.md
 │   ├── character-design.md
 │   ├── scene-plan.md
+│   ├── chapter-write.md
 │   ├── novel-review.md
 │   ├── humanize-text.md
 │   ├── novel-export.md

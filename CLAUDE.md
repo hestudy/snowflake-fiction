@@ -12,6 +12,7 @@ Snowflake Fiction 是一个 Claude Code 插件，提供完整的小说创作工�
 | outline-concept | 故事构思（步骤1→2构思期） | 构思故事、验证创意、故事概念、帮我想一个故事 |
 | character-design | 角色设计（步骤3→5→7人物深化链） | 角色设计、人物设计、新增角色、深化角色 |
 | scene-plan | 场景规划（步骤8→9场景设计链） | 场景规划、规划场景、场景设计、场景清单、规划章节 |
+| chapter-write | 创作期续写（步骤10，支持批量生成） | 续写、写章节、生成章节、写下一章、批量生成、继续写、写正文 |
 | novel-review | 小说质量复核检查 | 小说复核、章节检查、一致性检查、质量检查 |
 | humanize-text | AI文本人语化处理（24种检测模式+灵魂注入，支持指定路径和章节） | 人语化、去AI味、润色 |
 | quality-check | 内容质量评估（冲突/情绪/期待感/节奏/钩子五维打分） | 质量检查、内容检查、综合评估、检查质量、小说质量 |
@@ -31,6 +32,7 @@ snowflake-fiction/
 ├── agents/
 │   ├── outline-builder.md    # 大纲构建 agent（步骤4+6）
 │   ├── snowflake-fiction.md  # 雪花写作法文件处理器（目录扫描+批量生成）
+│   ├── chapter-write.md      # 创作期续写文件处理器（并行子代理架构）
 │   ├── humanize-text.md      # 人语化文件处理器（并行子代理架构）
 │   ├── novel-review.md       # 小说复核文件处理器（分批子代理架构）
 │   ├── novel-export.md       # 格式导出文件处理器（并行子代理架构）
@@ -66,6 +68,10 @@ snowflake-fiction/
 │   │       └── report-template.md         # 单章/批量报告模板
 │   ├── scene-plan/           # 场景规划技能（步骤8+9）
 │   │   └── SKILL.md
+│   ├── chapter-write/        # 创作期续写技能（步骤10）
+│   │   ├── SKILL.md          # 核心知识库（单章生成+流水账自检）
+│   │   └── references/
+│   │       └── writing-guide.md           # 写作提示词、检查清单、钩子设计
 │   ├── opening-check/        # 开篇质量检查技能
 │   │   ├── SKILL.md          # 核心知识库（黄金三章法则+输出格式）
 │   │   └── references/
@@ -149,6 +155,29 @@ Agent 层负责：目录扫描和进度判断、从任意步骤恢复创作、�
 局部重跑时只更新指定章节文件，不影响其他章节的已有规划。
 
 触发词：场景规划、规划场景、场景设计、场景清单、规划章节
+
+### chapter-write（创作期续写）
+
+采用 Command / Skill / Agent 三层架构：
+
+- **Command**（`commands/chapter-write.md`）：用户入口，所有输入路由到 Agent
+- **Skill**（`skills/chapter-write/SKILL.md`）：核心知识库，定义单章生成流程和流水账自检规则
+- **Agent**（`agents/chapter-write.md`）：文件处理器，扫描目录、章节范围解析、并行子代理派发
+
+覆盖步骤10的正文生成，可独立使用，也可被 snowflake-fiction 主流程调用。
+
+核心特性：
+- 批次间顺序、批次内并行（确保第N章能读到第N-1章）
+- 前置检查：缺少场景规划的章节跳过并报告
+- 续写模式：自动定位最后一章编号
+- 每章生成后自动执行流水账自检（冲突/情绪/期待感/节奏 4维度）
+- 开篇强化：第1-3章额外检查黄金三章标准
+
+并发策略：默认并发2，推荐范围1-3。
+
+知识库拆分为1个 references 文件：writing-guide.md（写作提示词、检查清单、钩子设计）。
+
+触发词：续写、写章节、生成章节、写下一章、批量生成、继续写、写正文
 
 ### outline-builder（大纲构建 agent）
 

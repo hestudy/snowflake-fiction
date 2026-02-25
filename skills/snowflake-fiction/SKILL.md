@@ -33,7 +33,7 @@ version: 1.3.0
 | **设计期** | 3,5 | 人物卡片 + 背景故事 | `character-design` |
 | **构建期** | 4,6,7 | 一页大纲 + 四页大纲 + 人物宝典 | `outline-builder` / `character-design` |
 | **规划期** | 8-9 | 场景清单 + 场景规划 | `scene-plan` |
-| **创作期** | 10 | 正式正文 | 内联（本文件） |
+| **创作期** | 10 | 正式正文 | `chapter-write` |
 | **润色期** | 11 | 人语化处理 | `humanize-text` |
 | **导出期** | 12 | 平台格式 | `novel-export` |
 
@@ -48,7 +48,7 @@ version: 1.3.0
 | **深化期** | 8-9 | 主角背景 + 配角背景 | `character-design` |
 | **构建期** | 10-11 | 完整总大纲 + 人物宝典 | `outline-builder` / `character-design` |
 | **规划期** | 12-14 | 卷级清单 + 章级大纲 + 场景规划 | `scene-plan` |
-| **创作期** | 15 | 逐章生成 + 润色 | 内联 + `humanize-text` |
+| **创作期** | 15 | 逐章生成 + 润色 | `chapter-write` + `humanize-text` |
 
 ---
 
@@ -114,24 +114,13 @@ version: 1.3.0
 
 #### 步骤 10：正式写作
 
-**目标**：按规划逐章生成正文
+**委托**：调用 `chapter-write` agent 执行此阶段。
 
-**执行原则**：
-1. **逐章生成**：不一次性生成全文
-2. **用户把控**：每章生成后确认再继续
-3. **保持一致性**：检查人物设定、情节逻辑、伏笔收束
+**传入上下文**：`08-场景规划/`、`06-人物宝典/`、`正文/`（agent 自主读取）
+**输出物**：`正文/第N章.md`
+**参考**：[chapter-write skill](../chapter-write/SKILL.md) | [chapter-write agent](../../agents/chapter-write.md)
 
-**单章生成流程**：
-```
-1. 读取该章的场景规划（08-场景规划/）
-2. 读取相关人物宝典（06-人物宝典/）
-3. 读取前文内容（保持连贯）
-4. 生成初稿
-5. 用户修改确认
-6. 保存到 正文/第N章.md
-```
-
-批量生成和并发控制由 [snowflake-fiction agent](../../agents/snowflake-fiction.md) 负责。
+单章生成、批量生成和并发控制均由 chapter-write agent 负责。
 
 ---
 
@@ -218,6 +207,8 @@ version: 1.3.0
 - [character-design skill](../character-design/SKILL.md)
 - [outline-builder agent](../../agents/outline-builder.md)
 - [scene-plan skill](../scene-plan/SKILL.md)
+- [chapter-write skill](../chapter-write/SKILL.md)
+- [chapter-write agent](../../agents/chapter-write.md)
 - [humanize-text skill](../humanize-text/SKILL.md)
 - [humanize-text agent](../../agents/humanize-text.md)
 - [novel-export skill](../novel-export/SKILL.md)
