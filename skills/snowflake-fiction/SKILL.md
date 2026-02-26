@@ -29,7 +29,7 @@ version: 1.3.0
 
 | 阶段 | 步骤 | 输出物 | 委托子技能 |
 |------|------|--------|-----------|
-| **构思期** | 1-2 | 一句话概括 + 五句式大纲 | `outline-concept` |
+| **构思期** | 1-2 | 一句话概括 + 五句式大纲 + 写作风格配置 | `outline-concept` |
 | **设计期** | 3,5 | 人物卡片 + 背景故事 | `character-design` |
 | **构建期** | 4,6,7 | 一页大纲 + 四页大纲 + 人物宝典 | `outline-builder` / `character-design` |
 | **规划期** | 8-9 | 场景清单 + 场景规划 | `scene-plan` |
@@ -41,7 +41,7 @@ version: 1.3.0
 
 | 阶段 | 步骤 | 输出物 | 委托子技能 |
 |------|------|--------|-----------|
-| **构思期** | 1-2 | 一句话概括 + 五句式大纲 | `outline-concept` |
+| **构思期** | 1-2 | 一句话概括 + 五句式大纲 + 写作风格配置 | `outline-concept` |
 | **规模期** | 3 | 卷数规划 + 章节数量 | 内联 |
 | **人物期** | 4-5 | 主角群卡片 + 配角群卡片 | `character-design` |
 | **总纲期** | 6-7 | 一页总纲 + 各卷大纲 | `outline-builder` |
@@ -61,7 +61,7 @@ version: 1.3.0
 **委托**：调用 `outline-concept` skill 执行此阶段。
 
 **传入上下文**：用户提供的题材偏好、主角类型、核心冲突
-**输出物**：`[小说名]/00-一句话概括.md`、`[小说名]/01-五句式大纲.md`
+**输出物**：`[小说名]/00-一句话概括.md`、`[小说名]/00-写作风格.md`、`[小说名]/01-五句式大纲.md`
 **参考**：[outline-concept skill](../outline-concept/SKILL.md)
 
 ---
@@ -116,7 +116,7 @@ version: 1.3.0
 
 **委托**：调用 `chapter-write` agent 执行此阶段。
 
-**传入上下文**：`08-场景规划/`、`06-人物宝典/`、`正文/`（agent 自主读取）
+**传入上下文**：`08-场景规划/`、`06-人物宝典/`、`00-写作风格.md`、`正文/`（agent 自主读取）
 **输出物**：`正文/第N章.md`
 **参考**：[chapter-write skill](../chapter-write/SKILL.md) | [chapter-write agent](../../agents/chapter-write.md)
 
@@ -156,6 +156,7 @@ version: 1.3.0
 [当前工作目录]/
 └── [小说名]/
     ├── 00-一句话概括.md        ← 步骤1（outline-concept）
+    ├── 00-写作风格.md          ← 步骤1.5c（outline-concept）
     ├── 01-五句式大纲.md        ← 步骤2（outline-concept）
     ├── 02-一页纸大纲.md        ← 步骤4（outline-builder）
     ├── 03-人物卡片/            ← 步骤3（character-design）
